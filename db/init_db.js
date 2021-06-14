@@ -6,6 +6,8 @@ const {
   createLink,
   createComment,
   createTag,
+  getUser,
+  getUserByUsername
 } = require("./index");
 
 const buildTables = async () => {
@@ -46,7 +48,8 @@ const buildTables = async () => {
       CREATE TABLE tags(
         id SERIAL PRIMARY KEY,
         "linkId" INTEGER REFERENCES links(id),
-        "tagName" varchar(255) NOT NULL
+        "tagName" varchar(255) NOT NULL,
+        UNIQUE ("linkId", "tagName")
     );
   `);
     console.log("Tables created succesfully");
@@ -212,11 +215,13 @@ const createInitialTags = async () => {
 };
 
 async function populateInitialData() {
+  const test = {username: "albert", password: "bertie99"}
   try {
     await createInitialUsers();
     await createInitialLinks();
     await createInitialComments();
     await createInitialTags();
+    await getUser(test);
   } catch (error) {
     throw error;
   }

@@ -10,6 +10,9 @@ server.use(morgan('dev'));
 const bodyParser = require('body-parser');
 server.use(bodyParser.json());
 
+//add env
+require("dotenv").config();
+
 // here's our static files
 const path = require('path');
 server.use(express.static(path.join(__dirname, 'build')));
@@ -21,6 +24,11 @@ server.use('/api', require('./routes'));
 server.use((req, res, next) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'))
 });
+
+//error handler
+server.use((err, req, res, next) => {
+  res.send(err);
+})
 
 // bring in the DB connection
 const { client } = require('./db');
