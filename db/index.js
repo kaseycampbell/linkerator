@@ -26,6 +26,7 @@ const createUser = async ({ username, password }) => {
     );
     return user;
   } catch (error) {
+    console.error("createUser", error)
     throw error;
   }
 };
@@ -44,11 +45,12 @@ const getUserByUsername = async (username) => {
     if (!user) return null;
     return user;
   } catch (error) {
+
     throw error;
   }
 }
 
-// POST api/users/register
+// POST api/users/login
 //returns id and username
 //id can be used in getAllLinks function to get only links by user
 const getUser = async ({ username, password }) => {
@@ -74,8 +76,9 @@ async function hashPassword(password) {
   return hashedPassword;
 }
 
-// LINK
+// LINKS
 
+// GET api/links/:userId
 const getAllLinks = async (id) => {
   try {
     const { rows: links } = await client.query(
@@ -139,7 +142,6 @@ const createLink = async ({ creatorId, title, url, clickCount, date }) => {
     console.error(error);
   }
 };
-
 
 // DELETE api/links/:linkId
 //deletes link from links table by link id

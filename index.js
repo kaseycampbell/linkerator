@@ -26,7 +26,9 @@ server.use((req, res, next) => {
 });
 
 //error handler
+// add in specifics. Look up error codes.
 server.use((err, req, res, next) => {
+  res.status(500);
   res.send(err);
 })
 
