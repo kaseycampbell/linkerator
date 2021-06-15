@@ -37,7 +37,7 @@ const buildTables = async () => {
         "creatorId" INTEGER REFERENCES users(id),
         title varchar(255) UNIQUE NOT NULL,
         url varchar(255) UNIQUE NOT NULL,
-        "clickCount" INTEGER DEFAULT 0,
+        "clickCount" INT NOT NULL,
         date DATE NOT NULL
     );
       CREATE TABLE comments(
@@ -47,6 +47,7 @@ const buildTables = async () => {
     );
       CREATE TABLE tags(
         id SERIAL PRIMARY KEY,
+        "creatorId" INTEGER REFERENCES users(id),
         "linkId" INTEGER REFERENCES links(id),
         "tagName" varchar(255) NOT NULL,
         UNIQUE ("linkId", "tagName")
@@ -171,34 +172,42 @@ const createInitialTags = async () => {
 
     const tagsToCreate = [
       {
+        creatorId: 1,
         linkId: 1,
         tagName: "Favorite",
       },
       {
+        creatorId: 3,
         linkId: 1,
         tagName: "School",
       },
       {
+        creatorId: 2,
         linkId: 2,
         tagName: "Favorite",
       },
       {
+        creatorId: 1,
         linkId: 2,
         tagName: "Video",
       },
       {
+        creatorId: 4,
         linkId: 2,
         tagName: "Entertainment",
       },
       {
+        creatorId: 2,
         linkId: 3,
         tagName: "School",
       },
       {
+        creatorId: 1,
         linkId: 4,
         tagName: "Entertainment",
       },
       {
+        creatorId: 5,
         linkId: 4,
         tagName: "Favorite",
       },
@@ -215,13 +224,14 @@ const createInitialTags = async () => {
 };
 
 async function populateInitialData() {
-  const test = {username: "albert", password: "bertie99"}
+  const test = {creatorId: 8, title: "hulu", url: "https", clickCount: 4, date: "today!!!"}
   try {
     await createInitialUsers();
     await createInitialLinks();
     await createInitialComments();
     await createInitialTags();
-    await getUser(test);
+    const data = await createLink(test);
+    console.log({data});
   } catch (error) {
     throw error;
   }
