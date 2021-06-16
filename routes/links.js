@@ -16,7 +16,7 @@ linksRouter.get("/:userId", async (req, res, next) => {
   }
 });
 
-//
+//cannot post without crea
 linksRouter.post("/:userId", async (req, res, next) => {
   try {
     const { title, url } = req.body;

@@ -1,0 +1,17 @@
+@import url("https://use.typekit.net/mdd8xud.css");
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: fenwick, sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  color: #404040;
+}
+
+body {
+  background: #2e2e2e;
+  width: 100%;
+  /* overflow: hidden; */
+}

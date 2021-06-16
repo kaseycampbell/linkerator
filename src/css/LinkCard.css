@@ -1,0 +1,55 @@
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  position: absolute;
+  top: 160px;
+  left: 250px;
+  width: 70%;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 180px;
+  margin-left: 25px;
+  margin-bottom: 25px;
+  /* max-width: 180px; */
+  height: 180px;
+  padding: 0.8rem;
+  border-radius: 12px;
+  background: #b0b0b0;
+  z-index: 100;
+}
+
+.card__title {
+  font-size: 1.5rem;
+}
+
+.card__content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  height: 100%;
+}
+
+.card__icon {
+  background: white;
+  border-radius: 10px;
+  padding: 5px;
+}
+
+.card__icon img {
+  max-height: 30px;
+}
+
+.card__comments {
+  font-size: 0.6rem;
+  color: #b0b0b0;
+  background: #262626;
+  padding: 0.4rem;
+  border-radius: 7px;
+}
+
+.card__comments:hover {
+  background: #2e2e2e;
+}

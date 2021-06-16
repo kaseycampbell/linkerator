@@ -264,7 +264,7 @@ const getAllTags = async () => {
   try {
     const { rows: tags } = await client.query(
       `
-      SELECT * FROM tags ORDER BY "tagName" ASC;
+      SELECT * FROM tags WHERE id=$1 ORDER BY "tagName" ASC;
       `
     );
     return tags;

@@ -1,4 +1,4 @@
-GET http://localhost:5000/api/links/2
+GET http://localhost:5000/api/links/4
 Content-Type: application/json
 
 ###
@@ -7,7 +7,7 @@ POST http://localhost:5000/api/users/register
 Content-Type: application/json
 
 {
-  "username": "user6",
+  "username": "user7",
   "password": "12345678"
 }
 
@@ -17,16 +17,16 @@ POST http://localhost:5000/api/users/login
 Content-Type: application/json
 
 {
-  "username": "user6",
+  "username": "user7",
   "password": "1234678"
 }
 
 ###
 
-POST http://localhost:5000/api/links/2
+POST http://localhost:5000/api/links/4
 Content-Type: application/json
 
 {
-  "title": "Hulu",
-  "url": "https://www.hulu.com"
+  "title": "Tumblr",
+  "url": "https://www.tumblr.com"
 }
