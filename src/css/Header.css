@@ -1,0 +1,18 @@
+#header__container {
+  background: #1a1a1a;
+  height: 250px;
+}
+
+#main__header {
+  font-size: 5rem;
+  position: absolute;
+  top: 30px;
+  left: 400px;
+}
+
+
+@media only screen and (max-width: 1400px) {
+  #main__header {
+    font-size: 2.5rem;
+  }
+}

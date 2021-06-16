@@ -7,7 +7,7 @@ const {
   createComment,
   createTag,
   getUser,
-  getUserByUsername
+  getUserByUsername,
 } = require("./index");
 
 const buildTables = async () => {
@@ -42,6 +42,7 @@ const buildTables = async () => {
     );
       CREATE TABLE comments(
         id SERIAL PRIMARY KEY,
+        "creatorId" INTEGER REFERENCES users(id),
         "linkId" INTEGER REFERENCES links(id),
         body varchar(255) NOT NULL
     );
@@ -67,6 +68,7 @@ const createInitialUsers = async () => {
       { username: "albert", password: "bertie99" },
       { username: "sandra", password: "sandra123" },
       { username: "glamgal", password: "glamgal123" },
+      { username: "austin", password: "12345678" },
     ];
     const users = await Promise.all(usersToCreate.map(createUser));
     console.log("Users created:");
@@ -132,26 +134,32 @@ const createInitialComments = async () => {
     console.log("Starting to create comments...");
     const commentsToCreate = [
       {
+        creatorId: 1,
         linkId: 1,
         body: "Probably the best website ever!",
       },
       {
+        creatorId: 1,
         linkId: 1,
         body: "The best!!",
       },
       {
+        creatorId: 2,
         linkId: 2,
         body: "Check this out!",
       },
       {
+        creatorId: 2,
         linkId: 3,
         body: "Wow... just wow.",
       },
       {
+        creatorId: 3,
         linkId: 4,
         body: "My favorite :)",
       },
       {
+        creatorId: 3,
         linkId: 4,
         body: "This is the coolest site omg",
       },
@@ -192,7 +200,7 @@ const createInitialTags = async () => {
         tagName: "Video",
       },
       {
-        creatorId: 4,
+        creatorId: 3,
         linkId: 2,
         tagName: "Entertainment",
       },
@@ -207,7 +215,7 @@ const createInitialTags = async () => {
         tagName: "Entertainment",
       },
       {
-        creatorId: 5,
+        creatorId: 1,
         linkId: 4,
         tagName: "Favorite",
       },
@@ -224,14 +232,11 @@ const createInitialTags = async () => {
 };
 
 async function populateInitialData() {
-  const test = {creatorId: 8, title: "hulu", url: "https", clickCount: 4, date: "today!!!"}
   try {
     await createInitialUsers();
     await createInitialLinks();
     await createInitialComments();
     await createInitialTags();
-    const data = await createLink(test);
-    console.log({data});
   } catch (error) {
     throw error;
   }
