@@ -118,6 +118,34 @@ const createInitialLinks = async () => {
         clickCount: 0,
         date: "2020-12-13",
       },
+      {
+        creatorId: 4,
+        title: "Tumblr",
+        url: "https://www.tumblr.com/",
+        clickCount: 2,
+        date: "2021-01-17",
+      },
+      {
+        creatorId: 4,
+        title: "yahoo",
+        url: "https://www.yahoo.com/",
+        clickCount: 1,
+        date: "2021-03-28",
+      },
+      {
+        creatorId: 4,
+        title: "codepen",
+        url: "https://www.codepen.com/",
+        clickCount: 2,
+        date: "2021-01-17",
+      },
+      {
+        creatorId: 2,
+        title: "StackOverflow",
+        url: "https://www.stackOverflow.com/",
+        clickCount: 1,
+        date: "2021-03-28",
+      }
     ];
     const links = await Promise.all(linksToCreate.map(createLink));
     console.log("Links created:");

@@ -1,28 +1,42 @@
+.card__container {
+  margin-left: 25px;
+  margin-bottom: 25px;
+}
+
 .cards {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   position: absolute;
-  top: 160px;
+  top: 180px;
   left: 250px;
-  width: 70%;
+  margin-right: 25px;
 }
 
 .card {
+  position: absolute;
+  top: -10px;
+  left: 0;
+  width: 100%;
+  height: 230px;
   display: flex;
   flex-direction: column;
-  flex: 0 0 180px;
-  margin-left: 25px;
-  margin-bottom: 25px;
-  /* max-width: 180px; */
-  height: 180px;
   padding: 0.8rem;
   border-radius: 12px;
   background: #b0b0b0;
   z-index: 100;
+  text-decoration: none;
+  box-shadow: 4px 1px 15px rgb(0, 0, 0, 0.3);
+  transition: 400ms ease;
+}
+
+.card:hover {
+  background: #bce2e3;
+  transform: translateY(-5px);
 }
 
 .card__title {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
 }
 
 .card__content {
@@ -39,17 +53,83 @@
 }
 
 .card__icon img {
-  max-height: 30px;
+  max-height: 50px;
 }
 
-.card__comments {
-  font-size: 0.6rem;
+.comment__card {
+  position: relative;
+  display: flex;
+  width: 210px;
+  justify-content: center;
+  align-items: flex-end;
+  max-width: 250px;
+  height: 250px;
+  padding: 0.5rem;
+  background: #404040;
+  border-radius: 12px;
+  box-shadow: 2px 2px 15px rgb(0, 0, 0, 0.4);
+  z-index: 90;
+  cursor: default
+}
+
+.comment__card span {
   color: #b0b0b0;
-  background: #262626;
-  padding: 0.4rem;
-  border-radius: 7px;
+  font-size: 0.8rem;
 }
 
-.card__comments:hover {
-  background: #2e2e2e;
+.comment__card span:hover {
+  color: #bce2e3;
 }
+
+.comment__card.open {
+  padding: 0.6rem;
+}
+
+.comment__card.open form {
+  display: flex;
+  font-size: 0.8rem;
+}
+
+.comment__card.open input {
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+  padding: 0.2rem;
+  background: #262626;
+  border-right: 1px solid #1a1a1a;
+  width: 98%;
+}
+
+.comment__card.open button {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  padding: 0.2rem;
+  background: #262626;
+  color: #b0b0b0;
+}
+
+.card__open {
+  position: absolute;
+  top: -10px;
+  left: 0;
+  width: 100%;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.8rem;
+  padding: 0.8rem;
+  border-radius: 12px;
+  background: #b0b0b0;
+  box-shadow: 4px 1px 15px rgb(0, 0, 0, 0.3);
+}
+
+
+
+
+/* color: black;
+align-items: center;
+height: 40px; 
+
+remover height, width, padding
+
+*/

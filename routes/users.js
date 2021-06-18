@@ -2,6 +2,7 @@ const express = require("express");
 const usersRouter = express.Router();
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = process.env;
+const {requireUser} = require('./utils')
 
 const { createUser, getUserByUsername, getUser } = require("../db/index");
 
@@ -60,6 +61,19 @@ usersRouter.post("/login", async (req, res, next) => {
         name: "InvalidCredentialsError",
         message: "The username or password you entered is incorrect.",
       });
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
+usersRouter.get("/me", requireUser, async (req, res, next) => {
+  try {
+    if (req.user) {
+      res.send(req.user);
+    } else {
+      const error = new Error("no user found");
+      next(error);
     }
   } catch (error) {
     next(error);

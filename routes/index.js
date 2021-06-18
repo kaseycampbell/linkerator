@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = process.env;
 
 const {
-  getAllLinks
+  getAllLinks, getUserById
 } = require("../db");
 
 apiRouter.get("/", (req, res, next) => {
@@ -12,17 +12,10 @@ apiRouter.get("/", (req, res, next) => {
   });
 });
 
-function requireUser(req, res, next) {
-  if (!req.user) {
-    next({
-      name: "MissingUserError",
-      message: "You must be logged in to perform this action."
-    })
-  }
-  next();
-}
 
 async function attachUser(req, res, next) {
+  console.log("attach user");
+  try {
   const auth = req.header("Authorization");
   const prefix = "Bearer ";
   if (!auth) {
@@ -36,12 +29,18 @@ async function attachUser(req, res, next) {
       next(new Error("could not find user"));
     } else {
       req.user = user;
+      console.log("USER SET");
       next();
     }
   }
+} catch(error) {
+  console.error("attach error", error);
+}
 }
 
 apiRouter.use(attachUser);
+
+
 
 // ROUTES
 
@@ -50,5 +49,8 @@ apiRouter.use("/users", usersRouter);
 
 const linksRouter = require("./links");
 apiRouter.use("/links", linksRouter);
+
+const commentsRouter = require("./comments");
+apiRouter.use("/comments", commentsRouter);
 
 module.exports = apiRouter;

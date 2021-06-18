@@ -7,6 +7,7 @@ const Header = () => {
   return (
     <div id="header__container">
       <h1 id="main__header">Gotta click em all</h1>
+      
     </div>
   );
 };

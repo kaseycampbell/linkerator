@@ -1,6 +1,8 @@
 #header__container {
   background: #1a1a1a;
   height: 250px;
+  box-shadow: 0px 2px 10px rgb(0, 0, 0, 0.4);
+
 }
 
 #main__header {
@@ -8,6 +10,9 @@
   position: absolute;
   top: 30px;
   left: 400px;
+  /* box-shadow: 2px 2px 15px rgb(0, 0, 0, 0.4);
+  text-decoration: underline;
+  text-decoration-color: #5ECED1; */
 }
 
 

@@ -1,35 +1,91 @@
 import React, { useState, useEffect } from "react";
-import { Header, SideNav, LinkCard } from "./index";
-import { getSomething } from "../api";
-import '../css/style.css'
+import { Header, SideNav, LinkCard, Auth } from "./index";
+import "../css/style.css";
 
 const App = () => {
-  const [message, setMessage] = useState("");
   const [links, setLinks] = useState([]);
+  const [user, setUser] = useState("");
 
-  // useEffect( async () => {
-  //   const response = await fetch();
-  //   const links = response.json();
-  //   console.log({links});
-  // })
+  const token = localStorage.getItem("token") || null;
 
   useEffect(() => {
-    getSomething()
-      .then((response) => {
-        setMessage(response.message);
-      })
-      .catch((error) => {
-        setMessage(error.message);
-      });
-  });
+    //use token to hit /me route and setUser
+    try {
+      async function fetchUser() {
+        const response = await fetch("api/users/me", {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+        });
+        const user = await response.json();
+        console.log({ user });
+        //check for error message
+        if (user.error) return setUser(null);
+        //if no error message set user info
+        setUser(user);
+        // fetchLinks(user.id);
+      }
+      fetchUser();
+    } catch (error) {
+      console.error(error);
+    }
+  }, []);
+
+  const fetchLinks = async (id) => {
+    try {
+      const response = await fetch(`/api/links/${id}`);
+      const links = await response.json();
+      console.log({ links });
+      if (links.error) return setLinks(null);
+      setLinks(links);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    if(!user) return;
+    fetchLinks(user.id);
+  }, [user])
+
+  // check for user and use user id to fetch links
+  // useEffect(() => {
+  //   try {
+  //     const fetchLinks = async (id) => {
+  //       try {
+  //         const response = await fetch(`/api/links/${id}`);
+  //         const links = await response.json();
+  //         console.log({ links });
+  //         if (links.error) return setLinks(null);
+  //         setLinks(links);
+  //         console.log("links set", links);
+  //       } catch (error) {
+  //         console.error(error);
+  //       }
+  //     };
+  //     fetchLinks();
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }, []);
 
   return (
     <div className="App">
-      <Header />
-      <SideNav />
-      <div className="cards">
-        <LinkCard />
-      </div>
+      {user ? (
+        <>
+          <Header />
+          <SideNav />
+          <div className="cards">
+            {links &&
+              links.map((link) => {
+                return <LinkCard key={link.id} link={link} />;
+              })}
+          </div>
+        </>
+      ) : (
+        <Auth setUser={setUser} />
+      )}
     </div>
   );
 };
