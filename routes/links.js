@@ -1,7 +1,6 @@
 const express = require("express");
 const linksRouter = express.Router();
-const {requireUser} = require('./utils')
-
+const { requireUser } = require("./utils");
 
 const { getAllLinks, createLink, destroyLink } = require("../db");
 

@@ -1,3 +1,5 @@
+@import url("https://use.typekit.net/mdd8xud.css");
+
 .card__container {
   margin-left: 25px;
   margin-bottom: 25px;
@@ -69,7 +71,7 @@
   border-radius: 12px;
   box-shadow: 2px 2px 15px rgb(0, 0, 0, 0.4);
   z-index: 90;
-  cursor: default
+  cursor: default;
 }
 
 .comment__card span {
@@ -105,6 +107,8 @@
   padding: 0.2rem;
   background: #262626;
   color: #b0b0b0;
+  display: flex;
+  flex-direction: column;
 }
 
 .card__open {
@@ -123,13 +127,25 @@
   box-shadow: 4px 1px 15px rgb(0, 0, 0, 0.3);
 }
 
+.comment__container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
 
+.all__comments {
+  width: 100%;
+  margin-top: 25px;
+  overflow: scroll;
+}
 
-
-/* color: black;
-align-items: center;
-height: 40px; 
-
-remover height, width, padding
-
-*/
+.comment {
+  font-weight: 300;
+  font-size: 0.9rem;
+  color: #b0b0b0;
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #303030;
+}

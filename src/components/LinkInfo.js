@@ -2,7 +2,6 @@ import React from "react";
 
 const LinkInfo = ({ link, setShowComments }) => {
   const handleCommentClick = () => {
-    console.log("comments clicked");
     setShowComments(true);
   };
 

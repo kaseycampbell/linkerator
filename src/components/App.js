@@ -12,14 +12,13 @@ const App = () => {
     //use token to hit /me route and setUser
     try {
       async function fetchUser() {
-        const response = await fetch("api/users/me", {
+        const response = await fetch("/api/users/me", {
           headers: {
             "Content-Type": "application/json",
             Authorization: "Bearer " + token,
           },
         });
         const user = await response.json();
-        console.log({ user });
         //check for error message
         if (user.error) return setUser(null);
         //if no error message set user info
@@ -36,7 +35,6 @@ const App = () => {
     try {
       const response = await fetch(`/api/links/${id}`);
       const links = await response.json();
-      console.log({ links });
       if (links.error) return setLinks(null);
       setLinks(links);
     } catch (error) {
@@ -49,37 +47,17 @@ const App = () => {
     fetchLinks(user.id);
   }, [user])
 
-  // check for user and use user id to fetch links
-  // useEffect(() => {
-  //   try {
-  //     const fetchLinks = async (id) => {
-  //       try {
-  //         const response = await fetch(`/api/links/${id}`);
-  //         const links = await response.json();
-  //         console.log({ links });
-  //         if (links.error) return setLinks(null);
-  //         setLinks(links);
-  //         console.log("links set", links);
-  //       } catch (error) {
-  //         console.error(error);
-  //       }
-  //     };
-  //     fetchLinks();
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }, []);
 
   return (
     <div className="App">
       {user ? (
         <>
-          <Header />
+          <Header user={user} setUser={setUser}/>
           <SideNav />
           <div className="cards">
             {links &&
               links.map((link) => {
-                return <LinkCard key={link.id} link={link} />;
+                return <LinkCard key={link.id} link={link} setLinks={setLinks}/>;
               })}
           </div>
         </>

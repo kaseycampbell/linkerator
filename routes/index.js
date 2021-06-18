@@ -1,46 +1,39 @@
-const apiRouter = require('express').Router();
+const apiRouter = require("express").Router();
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = process.env;
 
-const {
-  getAllLinks, getUserById
-} = require("../db");
+const { getAllLinks, getUserById } = require("../db");
 
 apiRouter.get("/", (req, res, next) => {
   res.send({
-    message: "API is under construction!"
+    message: "API is under construction!",
   });
 });
 
-
 async function attachUser(req, res, next) {
-  console.log("attach user");
   try {
-  const auth = req.header("Authorization");
-  const prefix = "Bearer ";
-  if (!auth) {
-    next();
-  } else if (auth.startsWith(prefix)) {
-    const token = auth.replace(prefix, "");
-    const parsedToken = jwt.verify(token, JWT_SECRET);
-    const id = parsedToken.id;
-    const user = await getUserById(id);
-    if (!user) {
-      next(new Error("could not find user"));
-    } else {
-      req.user = user;
-      console.log("USER SET");
+    const auth = req.header("Authorization");
+    const prefix = "Bearer ";
+    if (!auth) {
       next();
+    } else if (auth.startsWith(prefix)) {
+      const token = auth.replace(prefix, "");
+      const parsedToken = jwt.verify(token, JWT_SECRET);
+      const id = parsedToken.id;
+      const user = await getUserById(id);
+      if (!user) {
+        next(new Error("could not find user"));
+      } else {
+        req.user = user;
+        next();
+      }
     }
+  } catch (error) {
+    console.error("attach error", error);
   }
-} catch(error) {
-  console.error("attach error", error);
-}
 }
 
 apiRouter.use(attachUser);
-
-
 
 // ROUTES
 

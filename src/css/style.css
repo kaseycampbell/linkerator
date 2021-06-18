@@ -8,10 +8,10 @@
   font-weight: 400;
   font-style: normal;
   color: #404040;
+  /* color: #2e2e2e; */
 }
 
 body {
   background: #2e2e2e;
   width: 100%;
-  /* overflow: hidden; */
 }

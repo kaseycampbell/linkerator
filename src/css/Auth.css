@@ -48,11 +48,11 @@
   width: auto;
   align-self: center;
   padding: 5px 10px;
-  border-radius: 5px;;
+  border-radius: 5px;
 }
 
 .auth__button:hover {
-  background: #bce2e3;;
+  background: #bce2e3;
 }
 
 #toggle__link {
@@ -69,4 +69,3 @@
 #toggle__link span:hover {
   color: #5eced1;
 }
-

@@ -60,8 +60,6 @@ const getUser = async ({ username, password }) => {
   try {
     if (await bcrypt.compare(password, hashedPassword)) {
       delete user.password;
-      console.log({ user });
-
       return user;
     }
   } catch (error) {
@@ -71,7 +69,7 @@ const getUser = async ({ username, password }) => {
 
 const getUserById = async (id) => {
   try {
-    console.log("get user by id")
+    console.log("get user by id");
     const {
       rows: [user],
     } = await client.query(
@@ -108,17 +106,17 @@ const getAllLinks = async (id) => {
 
     const tags = await getAllTags(id);
     const comments = await getAllComments(id);
+    console.log({ comments });
 
     //adds tags array to link
     links.forEach((link) => {
+      link.tags = [];
       tags.forEach((tag) => {
         if (link.id === tag.linkId) {
-          link.tags = [
-            {
-              id: tag.id,
-              tagName: tag.tagName,
-            },
-          ];
+          link.tags.push({
+            id: tag.id,
+            tagName: tag.tagName,
+          });
         }
       });
     });
@@ -128,12 +126,10 @@ const getAllLinks = async (id) => {
       link.comments = [];
       comments.forEach((comment) => {
         if (link.id === comment.linkId) {
-          link.comments = [
-            {
-              id: comment.id,
-              body: comment.body,
-            },
-          ];
+          link.comments.push({
+            id: comment.id,
+            body: comment.body,
+          });
         }
       });
     });
@@ -233,7 +229,6 @@ const destroyAllTags = async (linkId) => {
   RETURNING *;`,
       [linkId]
     );
-    console.log("DELETED TAGS", tags);
     return tags;
   } catch (error) {
     console.error(error);
@@ -302,7 +297,7 @@ const createComment = async ({ creatorId, linkId, body }) => {
       rows: [comment],
     } = await client.query(
       `
-    INSERT INTO comments("creatorId", "linkId", body) VALUES ($1, $2, $3) RETURNING *;
+    INSERT INTO comments("creatorId", "linkId", body) VALUES ($1, $2, $3) RETURNING id, body;
     `,
       [creatorId, linkId, body]
     );

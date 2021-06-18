@@ -1,7 +1,7 @@
-import React, {useState} from "react";
-import {logInUser, setToken} from '../utils'
+import React, { useState } from "react";
+import { logInUser, setToken } from "../utils";
 
-const LogIn = ({setUser, setShowSignUp}) => {
+const LogIn = ({ setUser, setShowSignUp }) => {
   const [usernameInput, setUsernameInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
   const submitHandler = (e) => {
@@ -19,7 +19,7 @@ const LogIn = ({setUser, setShowSignUp}) => {
   };
 
   const handleClick = () => {
-    setShowSignUp(true)
+    setShowSignUp(true);
   };
 
   const handleLogIn = async (event) => {
@@ -29,11 +29,10 @@ const LogIn = ({setUser, setShowSignUp}) => {
       // check for error
       setToken(data.token);
       setUser(data.user);
-      console.log("log in set user", data.user);
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   return (
     <>
