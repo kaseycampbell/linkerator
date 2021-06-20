@@ -1,14 +1,22 @@
 import React, { useState } from "react";
 import { getToken } from "../utils";
+import { Comment } from "./index";
+import { BsThreeDots } from "react-icons/bs";
+import { GrClose } from "react-icons/gr";
 
 const LinkComments = ({ link, setShowComments, setLinks }) => {
   const [commentInput, setCommentInput] = useState("");
+  const [showEditComments, setShowEditComments] = useState(false);
   const { comments, id } = link;
 
   const token = getToken();
 
-  const handleCommentClick = () => {
+  const handleClose = () => {
     setShowComments(false);
+  };
+
+  const handleEdit = () => {
+    setShowEditComments(!showEditComments);
   };
 
   const handleInputChange = (e) => {
@@ -46,8 +54,14 @@ const LinkComments = ({ link, setShowComments, setLinks }) => {
   return (
     <div className="comment__card open">
       <div className="card__open">
-        <div className="comment__header" onClick={handleCommentClick}>
-          Comments
+        <div className="comment__header">
+          <div className="icon" onClick={handleEdit}>
+            <BsThreeDots />
+          </div>
+          <div>Comments</div>
+          <div className="icon" onClick={handleClose}>
+            <GrClose />
+          </div>
         </div>
       </div>
       <div className="comment__container">
@@ -55,9 +69,13 @@ const LinkComments = ({ link, setShowComments, setLinks }) => {
           {comments &&
             comments.map((comment) => {
               return (
-                <div key={comment.id} className="comment">
-                  {comment.body}
-                </div>
+                <Comment
+                  key={comment.id}
+                  comment={comment}
+                  showEditComments={showEditComments}
+                  setLinks={setLinks}
+                  link={link}
+                />
               );
             })}
         </div>
@@ -76,3 +94,10 @@ const LinkComments = ({ link, setShowComments, setLinks }) => {
 };
 
 export default LinkComments;
+
+{
+  /* <div key={comment.id} className="comment">
+                  {showEditComments && <div className="delete__comment"><GrClose onClick={handleDeleteComment}/></div>}
+                  <div className="comment__body">{comment.body}</div>
+                </div> */
+}

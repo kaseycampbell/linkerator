@@ -23,7 +23,6 @@ const App = () => {
         if (user.error) return setUser(null);
         //if no error message set user info
         setUser(user);
-        // fetchLinks(user.id);
       }
       fetchUser();
     } catch (error) {

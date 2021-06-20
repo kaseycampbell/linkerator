@@ -2,7 +2,7 @@ const express = require("express");
 const commentsRouter = express.Router();
 const { requireUser } = require("./utils");
 
-const { createComment } = require("../db");
+const { createComment, destroyComment } = require("../db");
 
 //get creatorId from req.user.id
 commentsRouter.post("/:linkId", requireUser, async (req, res, next) => {
@@ -16,5 +16,15 @@ commentsRouter.post("/:linkId", requireUser, async (req, res, next) => {
     next(error);
   }
 });
+
+commentsRouter.delete("/:id", requireUser, async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const comment = await destroyComment(id);
+    res.send(comment);
+  } catch (error) {
+    next(error);
+  }
+})
 
 module.exports = commentsRouter;

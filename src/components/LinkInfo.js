@@ -5,7 +5,7 @@ const LinkInfo = ({ link, setShowComments }) => {
     setShowComments(true);
   };
 
-  const { title, comments, url } = link;
+  const { title, comments, url, tags } = link;
 
   //use url here instead of title. will need to trim url first
   const icon = `https://www.google.com/s2/favicons?sz=64&domain_url=${title}.com`;
@@ -16,6 +16,13 @@ const LinkInfo = ({ link, setShowComments }) => {
       <a className="card" href={url}>
         <div className="card__title">{title}</div>
         <div className="card__content">
+          <div className="card__tags">
+            { tags && 
+              tags.map(tag => {
+                return <div key={tag.id} className="card__tag">{tag.tagName}</div>
+              })
+            }
+          </div>
           <div className="card__icon">
             <img src={icon} alt="" />
           </div>

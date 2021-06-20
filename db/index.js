@@ -261,7 +261,7 @@ const getTagById = async (id) => {
       rows: [tag],
     } = await client.query(
       `
-      SELECT * FROM tags WHERE id=$1;
+      SELECT * FROM tags WHERE id=$1 ORDER BY Len("tagName");
       `,
       [id]
     );
@@ -306,6 +306,23 @@ const createComment = async ({ creatorId, linkId, body }) => {
     console.error(error);
   }
 };
+
+const destroyComment = async (id) => {
+  try {
+    const { rows: [comment] } = await client.query(
+      `
+  DELETE
+  FROM comments
+  WHERE id=$1
+  RETURNING *;`,
+      [id]
+    );
+    console.log("DELETED COMMENT", comment);
+    return comment;
+  } catch (error) {
+    console.error(error);
+  }
+}
 
 const destroyAllComments = async (linkId) => {
   try {
@@ -355,6 +372,7 @@ module.exports = {
   getTagById,
   getAllTags,
   createComment,
+  destroyComment,
   destroyAllComments,
   getAllComments,
 };

@@ -26,7 +26,7 @@ const SignUp = ({ setUser, setShowSignUp }) => {
   };
 
   const handleClick = () => {
-    setShowSignUp(true);
+    setShowSignUp(false);
   };
 
   const handleSignUp = async (e) => {

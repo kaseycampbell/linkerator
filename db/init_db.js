@@ -208,29 +208,9 @@ const createInitialTags = async () => {
 
     const tagsToCreate = [
       {
-        creatorId: 1,
-        linkId: 1,
-        tagName: "Favorite",
-      },
-      {
-        creatorId: 3,
-        linkId: 1,
-        tagName: "School",
-      },
-      {
         creatorId: 2,
-        linkId: 2,
-        tagName: "Favorite",
-      },
-      {
-        creatorId: 1,
-        linkId: 2,
-        tagName: "Video",
-      },
-      {
-        creatorId: 3,
-        linkId: 2,
-        tagName: "Entertainment",
+        linkId: 3,
+        tagName: "FavoriteFavoriteFavorite",
       },
       {
         creatorId: 2,
@@ -238,13 +218,33 @@ const createInitialTags = async () => {
         tagName: "School",
       },
       {
+        creatorId: 2,
+        linkId: 4,
+        tagName: "Favorite",
+      },
+      {
+        creatorId: 2,
+        linkId: 3,
+        tagName: "Video",
+      },
+      {
+        creatorId: 2,
+        linkId: 4,
+        tagName: "Entertainment",
+      },
+      {
+        creatorId: 2,
+        linkId: 1,
+        tagName: "School",
+      },
+      {
         creatorId: 1,
         linkId: 4,
         tagName: "Entertainment",
       },
       {
         creatorId: 1,
-        linkId: 4,
+        linkId: 1,
         tagName: "Favorite",
       },
     ];
