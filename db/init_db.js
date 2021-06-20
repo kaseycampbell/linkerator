@@ -118,6 +118,34 @@ const createInitialLinks = async () => {
         clickCount: 0,
         date: "2020-12-13",
       },
+      {
+        creatorId: 4,
+        title: "Tumblr",
+        url: "https://www.tumblr.com/",
+        clickCount: 2,
+        date: "2021-01-17",
+      },
+      {
+        creatorId: 4,
+        title: "yahoo",
+        url: "https://www.yahoo.com/",
+        clickCount: 1,
+        date: "2021-03-28",
+      },
+      {
+        creatorId: 4,
+        title: "codepen",
+        url: "https://www.codepen.com/",
+        clickCount: 2,
+        date: "2021-01-17",
+      },
+      {
+        creatorId: 2,
+        title: "StackOverflow",
+        url: "https://www.stackOverflow.com/",
+        clickCount: 1,
+        date: "2021-03-28",
+      }
     ];
     const links = await Promise.all(linksToCreate.map(createLink));
     console.log("Links created:");
@@ -180,29 +208,9 @@ const createInitialTags = async () => {
 
     const tagsToCreate = [
       {
-        creatorId: 1,
-        linkId: 1,
-        tagName: "Favorite",
-      },
-      {
-        creatorId: 3,
-        linkId: 1,
-        tagName: "School",
-      },
-      {
         creatorId: 2,
-        linkId: 2,
-        tagName: "Favorite",
-      },
-      {
-        creatorId: 1,
-        linkId: 2,
-        tagName: "Video",
-      },
-      {
-        creatorId: 3,
-        linkId: 2,
-        tagName: "Entertainment",
+        linkId: 3,
+        tagName: "FavoriteFavoriteFavorite",
       },
       {
         creatorId: 2,
@@ -210,13 +218,33 @@ const createInitialTags = async () => {
         tagName: "School",
       },
       {
+        creatorId: 2,
+        linkId: 4,
+        tagName: "Favorite",
+      },
+      {
+        creatorId: 2,
+        linkId: 3,
+        tagName: "Video",
+      },
+      {
+        creatorId: 2,
+        linkId: 4,
+        tagName: "Entertainment",
+      },
+      {
+        creatorId: 2,
+        linkId: 1,
+        tagName: "School",
+      },
+      {
         creatorId: 1,
         linkId: 4,
         tagName: "Entertainment",
       },
       {
         creatorId: 1,
-        linkId: 4,
+        linkId: 1,
         tagName: "Favorite",
       },
     ];
