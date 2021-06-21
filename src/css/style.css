@@ -74,15 +74,17 @@ body {
   margin-right: 8px;
   margin-bottom: 8px;
   display: flex;
-  align-items: center;
+  /* align-items: center; */
 }
 
 .delete__tag {
   padding-right: 3px;
+  fill: #b0b0b0;
+  font-size: 1.1rem;
 }
 
 #delete__link {
-  border: 2px solid red;
+  border: 2px solid #CF2328;
 }
 
 .form__buttons {

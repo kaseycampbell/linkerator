@@ -1,5 +1,5 @@
 import React from "react";
-import { GrClose } from "react-icons/gr";
+import {AiOutlineClose} from "react-icons/ai";
 import { getToken } from "../utils";
 
 const Tag = ({ tag, link, setLinks }) => {
@@ -27,10 +27,10 @@ const Tag = ({ tag, link, setLinks }) => {
       console.error(error);
     }
   };
-
+  let iconStyles = { color: "white", fontSize: "1.5em" };
   return (
     <div className="tag">
-      <GrClose className="delete__tag" onClick={handleDeleteTag} />
+      <AiOutlineClose className="delete__tag" onClick={handleDeleteTag} />
       {tag.tagName}
     </div>
   );

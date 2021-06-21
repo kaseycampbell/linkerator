@@ -1,6 +1,7 @@
 import React from "react";
 import { getToken } from "../utils";
-import { GrClose } from "react-icons/gr";
+import {AiOutlineClose} from "react-icons/ai";
+
 
 const Comment = ({ comment, showEditComments, setLinks, link }) => {
   const { id, body } = comment;
@@ -33,7 +34,7 @@ const Comment = ({ comment, showEditComments, setLinks, link }) => {
     <div className="comment">
       {showEditComments && (
         <div className="delete__comment">
-          <GrClose onClick={handleDeleteComment} />
+          <AiOutlineClose onClick={handleDeleteComment} />
         </div>
       )}
       <div className="comment__body">{body}</div>

@@ -100,7 +100,13 @@ const EditLink = ({ link, setShowEditModal, setLinks }) => {
   const addTags = async () => {
     if (tagsInput) {
       let newTags = tagsInput.split(",");
-      newTags = newTags.map((tag) => tag.trim());
+      newTags = newTags.map((tag) => {
+        let prettyTag = tag.trim();
+        prettyTag = prettyTag.toLowerCase();
+        console.log({prettyTag});
+        prettyTag = prettyTag.charAt(0).toUpperCase() + prettyTag.slice(1);
+        return prettyTag;
+      });
       newTags = newTags.map(async (tag) => {
         try {
           const response = await fetch(`/api/tags/${link.id}`, {

@@ -1,7 +1,19 @@
 const express = require("express");
 const tagsRouter = express.Router();
 const { requireUser } = require("./utils");
-const { createTag, destroyTag } = require("../db");
+const { getAllTags, createTag, destroyTag } = require("../db");
+
+tagsRouter.get('/', requireUser, async (req, res, next) => {
+  const creatorId = req.user.id;
+  console.log({creatorId});
+  try {
+    const tags = await getAllTags(creatorId);
+    res.send(tags);
+    console.log({tags});
+  } catch (error) {
+    next(error)
+  }
+})
 
 tagsRouter.post("/:linkId", requireUser, async (req, res, next) => {
   const { linkId } = req.params;

@@ -15,14 +15,14 @@ const LinkInfo = ({
 
   const token = getToken();
 
-  const { title, comments, url, tags } = link;
-  let clickCount = link.clickCount;
+  const { title, comments, url, tags, clickCount } = link;
+  // let clickCount = link.clickCount;
 
   //use url here instead of title. will need to trim url first
   const icon = `https://www.google.com/s2/favicons?sz=64&domain_url=${title}.com`;
 
-  const handleClick = async () => {
-    clickCount += 1;
+  const handleClick = async (event) => {
+    // clickCount += 1;
     try {
       const response = await fetch(`/api/links/click/${link.id}`, {
         method: "PATCH",
@@ -31,7 +31,7 @@ const LinkInfo = ({
           Authorization: "Bearer " + token,
         },
         body: JSON.stringify({
-          clickCount,
+          clickCount: clickCount + 1,
         }),
       });
       let updatedLink = await response.json();
@@ -62,7 +62,7 @@ const LinkInfo = ({
           </div>
         </div>
 
-        <a className="card__content" href={url} onClick={handleClick}>
+        <a target="_blank" className="card__content" href={url} onClick={handleClick}>
           <div className="card__tags">
             {tags &&
               tags.map((tag) => {

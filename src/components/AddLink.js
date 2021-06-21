@@ -55,6 +55,7 @@ const AddLink = ({ links, setLinks, setShowAddModal }) => {
         }),
       });
       const link = await response.json();
+      console.log({link});
       link.comments = [];
       const newLinks = [link, ...links];
       setLinks(newLinks);
@@ -72,7 +73,12 @@ const AddLink = ({ links, setLinks, setShowAddModal }) => {
     link.tags = [];
     if (tagsInput) {
       let newTags = tagsInput.split(",");
-      newTags = newTags.map((tag) => tag.trim());
+      newTags = newTags.map((tag) => {
+        let prettyTag = tag.trim();
+        prettyTag = prettyTag.toLowerCase();
+        prettyTag = prettyTag.charAt(0).toUpperCase() + prettyTag.slice(1);
+        return prettyTag;
+      });
       newTags = newTags.map(async (tag) => {
         try {
           const response = await fetch(`/api/tags/${link.id}`, {

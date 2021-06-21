@@ -1,87 +1,73 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
 import { Header, SideNav, LinkCard, Auth, AddLink, EditLink } from "./index";
 import "../css/style.css";
 
 const App = () => {
   const [links, setLinks] = useState([]);
-
-  const [search, setSearch] = useState('');
-  const [searchOption, setSearchOption] = useState('')
-  const [sortOption, setSortOption] = useState('');
+  const [filter, setFilter] = useState("");
   const [user, setUser] = useState("");
   const [linkToUpdate, setLinkToUpdate] = useState(null);
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+  // const [search, setSearch] = useState('');
+  // const [searchOption, setSearchOption] = useState('')
+  // const [sortOption, setSortOption] = useState('');
 
   const token = localStorage.getItem("token") || null;
 
+  //   useEffect(async () => {
+  //     fetchAPI('/routes/links')
+  //       .then((resp) => {
+  //         console.log("Here are the links:", resp)
+  //         let sortedList = resp.sort((a, b) => (a.clickcount > b.clickcount)? -1: 1);
+  //         setLinks(sortedList);
+  //       })
+  //       .catch(console.error);
+  //   }, []);
 
-  const history = useHistory();
-  useEffect(() => {
-    return () => {
-      if (history && history.action === "POP") {
-        window.location.reload();
-      }
-    };
-  });
+  //   useEffect(async () => {
+  //   fetchAPI('/routes/tags')
+  //     .then((data) => {
+  //       console.log(data)
+  //       setTagList(data)
+  //     })
+  //     .catch(console.error)
+  // }, [])
 
-//   useEffect(async () => {
-//     fetchAPI('/routes/links')
-//       .then((resp) => {
-//         console.log("Here are the links:", resp)
-//         let sortedList = resp.sort((a, b) => (a.clickcount > b.clickcount)? -1: 1);
-//         setLinks(sortedList);
-//       })
-//       .catch(console.error);
-//   }, []);
-  
-//   useEffect(async () => {
-//   fetchAPI('/routes/tags')
-//     .then((data) => {
-//       console.log(data)
-//       setTagList(data)
-//     })
-//     .catch(console.error)
-// }, [])
+  //   function filteredLinks() {
+  //     if (searchOption === 'Tags') {
+  //       return links.filter((_link) => {
+  //         let tags = _link.tags.map((tag) => {
+  //           return tag.tag;
+  //         })
+  //         if (tags.join(', ').includes(search)) {
+  //           return _link;
+  //         }
+  //       })
+  //     }
+  //     return links.filter((_link) => {
+  //       return _link.link.includes(search.toLowerCase());
+  //     });
+  //   }
 
-
-
-//   function filteredLinks() {
-//     if (searchOption === 'Tags') {
-//       return links.filter((_link) => {
-//         let tags = _link.tags.map((tag) => {
-//           return tag.tag;
-//         })
-//         if (tags.join(', ').includes(search)) {
-//           return _link;
-//         }
-//       })
-//     }
-//     return links.filter((_link) => {
-//       return _link.link.includes(search.toLowerCase());
-//     });
-//   }
-
-//   return (
-//   <Route path='/'>
-//   <SearchBar 
-//     search={search}
-//     setSearch={setSearch}
-//     setSearchOption={setSearchOption}
-//     searchOption={searchOption}
-//     sortOption={sortOption}
-//     setSortOption={setSortOption}
-//     links={links}
-//     setLinks={setLinks}/>
-//   <LinkTable
-//     links={filteredLinks()}
-//     setSearch={setSearch}
-//     setLinks={setLinks}/>
-// </Route>
-// )
-// };
-
+  //   return (
+  //   <Route path='/'>
+  //   <SearchBar
+  //     search={search}
+  //     setSearch={setSearch}
+  //     setSearchOption={setSearchOption}
+  //     searchOption={searchOption}
+  //     sortOption={sortOption}
+  //     setSortOption={setSortOption}
+  //     links={links}
+  //     setLinks={setLinks}/>
+  //   <LinkTable
+  //     links={filteredLinks()}
+  //     setSearch={setSearch}
+  //     setLinks={setLinks}/>
+  // </Route>
+  // )
+  // };
 
   useEffect(() => {
     //use token to hit /me route and setUser
@@ -121,26 +107,43 @@ const App = () => {
     fetchLinks(user.id);
   }, [user]);
 
+console.log({filter});
+
   return (
     <>
       <div className="App">
         {user ? (
           <>
             <Header user={user} setUser={setUser} />
-            <SideNav setShowAddModal={setShowAddModal} />
+            <SideNav
+              setShowAddModal={setShowAddModal}
+              links={links}
+              setFilter={setFilter}
+            />
             <div className="cards">
-              {links &&
-                links.map((link) => {
-                  return (
-                    <LinkCard
-                      key={link.id}
-                      link={link}
-                      setLinks={setLinks}
-                      setShowEditModal={setShowEditModal}
-                      setLinkToUpdate={setLinkToUpdate}
-                    />
-                  );
-                })}
+              {filter
+                ? filter.map((link) => {
+                    return (
+                      <LinkCard
+                        key={link.id}
+                        link={link}
+                        setLinks={setLinks}
+                        setShowEditModal={setShowEditModal}
+                        setLinkToUpdate={setLinkToUpdate}
+                      />
+                    );
+                  })
+                : links.map((link) => {
+                    return (
+                      <LinkCard
+                        key={link.id}
+                        link={link}
+                        setLinks={setLinks}
+                        setShowEditModal={setShowEditModal}
+                        setLinkToUpdate={setLinkToUpdate}
+                      />
+                    );
+                  })}
             </div>
           </>
         ) : (
