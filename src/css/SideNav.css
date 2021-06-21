@@ -6,5 +6,13 @@
   bottom: 0;
   left: 30px;
   background: #262626;
+}
+
+.search-bar {
+  display: flex;
+  flex-direction: row;
+}
+
   border-left: 8px solid #5eced1;
 }
+
