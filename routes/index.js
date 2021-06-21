@@ -35,8 +35,6 @@ async function attachUser(req, res, next) {
 
 apiRouter.use(attachUser);
 
-
-
 // ROUTES
 
 const usersRouter = require("./users");

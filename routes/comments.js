@@ -24,6 +24,6 @@ commentsRouter.delete("/:id", requireUser, async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-})
+});
 
 module.exports = commentsRouter;

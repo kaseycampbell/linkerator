@@ -29,8 +29,8 @@ const LogIn = ({ setUser, setShowSignUp }) => {
       // check for error
       if (!user.token) {
         alert(user.message);
-        setPasswordInput("")
-        return
+        setPasswordInput("");
+        return;
       }
       setToken(user.token);
       setUser(user.user);

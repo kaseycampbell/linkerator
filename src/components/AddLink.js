@@ -69,7 +69,7 @@ const AddLink = ({ links, setLinks, setShowAddModal }) => {
   };
 
   const addTags = async (link) => {
-    link.tags=[];
+    link.tags = [];
     if (tagsInput) {
       let newTags = tagsInput.split(",");
       newTags = newTags.map((tag) => tag.trim());

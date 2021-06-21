@@ -20,14 +20,14 @@ tagsRouter.post("/:linkId", requireUser, async (req, res, next) => {
   }
 });
 
-tagsRouter.delete('/:tagId', requireUser, async (req, res, next) => {
-  const {tagId} = req.params;
+tagsRouter.delete("/:tagId", requireUser, async (req, res, next) => {
+  const { tagId } = req.params;
   try {
     const tag = await destroyTag(tagId);
     res.send(tag);
   } catch (error) {
     next(error);
   }
-})
+});
 
 module.exports = tagsRouter;

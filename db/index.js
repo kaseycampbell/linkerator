@@ -198,7 +198,7 @@ const updateLink = async ({ linkId, title, url }) => {
   }
 };
 
-const updateClickCount = async ({clickCount, linkId}) => {
+const updateClickCount = async ({ clickCount, linkId }) => {
   try {
     const {
       rows: [updatedLink],
@@ -212,7 +212,7 @@ const updateClickCount = async ({clickCount, linkId}) => {
   } catch (error) {
     throw error;
   }
-}
+};
 
 // TAGS
 
@@ -324,7 +324,9 @@ const createComment = async ({ creatorId, linkId, body }) => {
 
 const destroyComment = async (id) => {
   try {
-    const { rows: [comment] } = await client.query(
+    const {
+      rows: [comment],
+    } = await client.query(
       `
   DELETE
   FROM comments
@@ -336,7 +338,7 @@ const destroyComment = async (id) => {
   } catch (error) {
     console.error(error);
   }
-}
+};
 
 const destroyAllComments = async (linkId) => {
   try {

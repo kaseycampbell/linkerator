@@ -2,8 +2,8 @@ import React from "react";
 import { getToken } from "../utils";
 import { GrClose } from "react-icons/gr";
 
-const Comment = ({comment, showEditComments, setLinks, link}) => {
-  const {id, body} = comment;
+const Comment = ({ comment, showEditComments, setLinks, link }) => {
+  const { id, body } = comment;
   const token = getToken();
 
   const handleDeleteComment = async () => {
@@ -22,11 +22,11 @@ const Comment = ({comment, showEditComments, setLinks, link}) => {
     const newComments = link.comments.filter((c) => c.id !== id);
     link.comments = newComments;
     setLinks((currentLinks) => {
-      return currentLinks.map(l => {
+      return currentLinks.map((l) => {
         if (l.id !== link.id) return l;
         return link;
-      })
-    })
+      });
+    });
   };
 
   return (

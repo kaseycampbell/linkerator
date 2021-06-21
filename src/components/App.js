@@ -11,7 +11,7 @@ const App = () => {
   const [showEditModal, setShowEditModal] = useState(false);
 
   const token = localStorage.getItem("token") || null;
-  
+
   const history = useHistory();
   useEffect(() => {
     return () => {

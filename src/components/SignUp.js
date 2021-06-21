@@ -35,16 +35,16 @@ const SignUp = ({ setUser, setShowSignUp }) => {
       alert("Passwords do not match!");
       setPasswordInput("");
       setVerifyPasswordInput("");
-      return
+      return;
     }
     try {
       const user = await registerUser(usernameInput, passwordInput);
       if (!user.token) {
         alert(user.message);
-        setPasswordInput("")
+        setPasswordInput("");
         setVerifyPasswordInput("");
 
-        return
+        return;
       }
       setToken(user.token);
       setUser(user.user);

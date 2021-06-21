@@ -146,7 +146,7 @@ const createInitialLinks = async () => {
         url: "https://www.stackOverflow.com/",
         clickCount: 1,
         date: "2021-03-28",
-      }
+      },
     ];
     const links = await Promise.all(linksToCreate.map(createLink));
     console.log("Links created:");

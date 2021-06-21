@@ -31,7 +31,7 @@ const LinkInfo = ({
           Authorization: "Bearer " + token,
         },
         body: JSON.stringify({
-          clickCount
+          clickCount,
         }),
       });
       let updatedLink = await response.json();
@@ -43,9 +43,7 @@ const LinkInfo = ({
           return updatedLink;
         });
       });
-    } catch (error) {
-      
-    }
+    } catch (error) {}
   };
 
   const handleEditLink = () => {

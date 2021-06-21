@@ -38,8 +38,8 @@ const EditLink = ({ link, setShowEditModal, setLinks }) => {
       });
       const deletedLink = await response.json();
       setLinks((currentLinks) => {
-        return currentLinks.filter(l => l.id !== deletedLink.id);
-      })
+        return currentLinks.filter((l) => l.id !== deletedLink.id);
+      });
     } catch (error) {
       console.error(error);
     }
