@@ -1,4 +1,3 @@
-const BASE = "";
 
 export const logInUser = async (username, password) => {
   try {
@@ -32,6 +31,7 @@ export const registerUser = async (username, password) => {
       }),
     });
     const user = await response.json();
+    console.log({user});
     return user;
   } catch (error) {
     console.error(error);

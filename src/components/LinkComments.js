@@ -94,10 +94,3 @@ const LinkComments = ({ link, setShowComments, setLinks }) => {
 };
 
 export default LinkComments;
-
-{
-  /* <div key={comment.id} className="comment">
-                  {showEditComments && <div className="delete__comment"><GrClose onClick={handleDeleteComment}/></div>}
-                  <div className="comment__body">{comment.body}</div>
-                </div> */
-}

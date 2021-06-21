@@ -16,7 +16,6 @@ const Comment = ({comment, showEditComments, setLinks, link}) => {
         },
       });
       const deletedComment = await response.json();
-      console.log({deletedComment});
     } catch (error) {
       console.error(error);
     }
@@ -43,10 +42,3 @@ const Comment = ({comment, showEditComments, setLinks, link}) => {
 };
 
 export default Comment;
-
-// setLinks((currentLinks) => {
-//   return currentLinks.map((l) => {
-//     if (l.id !== link.id) return l;
-//     return link;
-//   });
-// });

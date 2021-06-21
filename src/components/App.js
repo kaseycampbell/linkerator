@@ -1,12 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { Header, SideNav, LinkCard, Auth } from "./index";
+import { useHistory } from "react-router-dom";
+import { Header, SideNav, LinkCard, Auth, AddLink, EditLink } from "./index";
 import "../css/style.css";
 
 const App = () => {
   const [links, setLinks] = useState([]);
   const [user, setUser] = useState("");
+  const [linkToUpdate, setLinkToUpdate] = useState(null);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
 
   const token = localStorage.getItem("token") || null;
+  
+  const history = useHistory();
+  useEffect(() => {
+    return () => {
+      if (history && history.action === "POP") {
+        window.location.reload();
+      }
+    };
+  });
 
   useEffect(() => {
     //use token to hit /me route and setUser
@@ -28,7 +41,7 @@ const App = () => {
     } catch (error) {
       console.error(error);
     }
-  }, []);
+  }, [token]);
 
   const fetchLinks = async (id) => {
     try {
@@ -42,28 +55,55 @@ const App = () => {
   };
 
   useEffect(() => {
-    if(!user) return;
+    if (!user) return;
     fetchLinks(user.id);
-  }, [user])
-
+  }, [user]);
 
   return (
-    <div className="App">
-      {user ? (
-        <>
-          <Header user={user} setUser={setUser}/>
-          <SideNav />
-          <div className="cards">
-            {links &&
-              links.map((link) => {
-                return <LinkCard key={link.id} link={link} setLinks={setLinks}/>;
-              })}
-          </div>
-        </>
-      ) : (
-        <Auth setUser={setUser} />
+    <>
+      <div className="App">
+        {user ? (
+          <>
+            <Header user={user} setUser={setUser} />
+            <SideNav setShowAddModal={setShowAddModal} />
+            <div className="cards">
+              {links &&
+                links.map((link) => {
+                  return (
+                    <LinkCard
+                      key={link.id}
+                      link={link}
+                      setLinks={setLinks}
+                      setShowEditModal={setShowEditModal}
+                      setLinkToUpdate={setLinkToUpdate}
+                    />
+                  );
+                })}
+            </div>
+          </>
+        ) : (
+          <Auth setUser={setUser} />
+        )}
+      </div>
+      {showAddModal && (
+        <div className="modal">
+          <AddLink
+            links={links}
+            setLinks={setLinks}
+            setShowAddModal={setShowAddModal}
+          />
+        </div>
       )}
-    </div>
+      {showEditModal && (
+        <div className="modal">
+          <EditLink
+            link={linkToUpdate}
+            setShowEditModal={setShowEditModal}
+            setLinks={setLinks}
+          />
+        </div>
+      )}
+    </>
   );
 };
 

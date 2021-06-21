@@ -35,6 +35,8 @@ async function attachUser(req, res, next) {
 
 apiRouter.use(attachUser);
 
+
+
 // ROUTES
 
 const usersRouter = require("./users");
@@ -45,5 +47,8 @@ apiRouter.use("/links", linksRouter);
 
 const commentsRouter = require("./comments");
 apiRouter.use("/comments", commentsRouter);
+
+const tagsRouter = require("./tags");
+apiRouter.use("/tags", tagsRouter);
 
 module.exports = apiRouter;
