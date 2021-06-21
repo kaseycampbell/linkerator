@@ -3,6 +3,7 @@ import "../css/SideNav.css";
 
 // contains search bar with search button and all tags
 
+
 const SideNav = ({
   search,
   setSearch,
@@ -66,6 +67,9 @@ const SideNav = ({
       </div>
     </>
   );
-};
+
+// const SideNav = () => {
+//   return <div id="side__nav"></div>;
+// };
 
 export default SideNav;

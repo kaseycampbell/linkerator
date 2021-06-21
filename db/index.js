@@ -3,12 +3,13 @@ const { Client } = require("pg");
 const DB_NAME = "localhost:5432/linkerator";
 const DB_URL = process.env.DATABASE_URL || `postgres://${DB_NAME}`;
 const client = new Client(DB_URL);
-const bcrypt = require('bcrypt')
+const bcrypt = require("bcrypt");
 
 // USER
 
 //still needed
 //getUserById(id)
+//deleteComment
 
 // POST api/user/register
 //creates a new user
@@ -26,7 +27,7 @@ const createUser = async ({ username, password }) => {
     );
     return user;
   } catch (error) {
-    console.error("createUser", error)
+    console.error("createUser", error);
     throw error;
   }
 };
@@ -45,10 +46,9 @@ const getUserByUsername = async (username) => {
     if (!user) return null;
     return user;
   } catch (error) {
-
     throw error;
   }
-}
+};
 
 // POST api/users/login
 //returns id and username
@@ -60,14 +60,30 @@ const getUser = async ({ username, password }) => {
   try {
     if (await bcrypt.compare(password, hashedPassword)) {
       delete user.password;
-      console.log({user});
-
       return user;
     }
   } catch (error) {
     throw error;
   }
-}
+};
+
+const getUserById = async (id) => {
+  try {
+    console.log("get user by id");
+    const {
+      rows: [user],
+    } = await client.query(
+      `
+      SELECT id, username FROM users WHERE id=$1;
+    `,
+      [id]
+    );
+    if (!user) return null;
+    return user;
+  } catch (error) {
+    throw error;
+  }
+};
 
 //util functions
 async function hashPassword(password) {
@@ -88,33 +104,32 @@ const getAllLinks = async (id) => {
       [id]
     );
 
-    const tags = await getAllTags();
-    const comments = await getAllComments();
+    const tags = await getAllTags(id);
+    const comments = await getAllComments(id);
+    console.log({ comments });
 
     //adds tags array to link
     links.forEach((link) => {
+      link.tags = [];
       tags.forEach((tag) => {
         if (link.id === tag.linkId) {
-          link.tags = [
-            {
-              id: tag.id,
-              tagName: tag.tagName,
-            },
-          ];
+          link.tags.push({
+            id: tag.id,
+            tagName: tag.tagName,
+          });
         }
       });
     });
 
     //adds comment array to link
     links.forEach((link) => {
+      link.comments = [];
       comments.forEach((comment) => {
         if (link.id === comment.linkId) {
-          link.comments = [
-            {
-              id: comment.id,
-              body: comment.body,
-            },
-          ];
+          link.comments.push({
+            id: comment.id,
+            body: comment.body,
+          });
         }
       });
     });
@@ -168,7 +183,7 @@ const destroyLink = async (id) => {
 
 // PATCH api/links/:linkId
 //updates link title
-const updateLinkTitle = async ({ id, title }) => {
+const updateLink = async ({ id, title, url }) => {
   try {
     const {
       rows: [updatedLink],
@@ -188,15 +203,15 @@ const updateLinkTitle = async ({ id, title }) => {
 
 // POST api/tags/:linkId
 //creates tag in tags table
-const createTag = async ({ linkId, tagName }) => {
+const createTag = async ({ creatorId, linkId, tagName }) => {
   try {
     const {
       rows: [tag],
     } = await client.query(
       `
-    INSERT INTO tags("linkId", "tagName") VALUES ($1, $2) RETURNING *;
+    INSERT INTO tags("creatorId", "linkId", "tagName") VALUES ($1, $2, $3) RETURNING *;
     `,
-      [linkId, tagName]
+      [creatorId, linkId, tagName]
     );
     return tag;
   } catch (error) {
@@ -214,13 +229,11 @@ const destroyAllTags = async (linkId) => {
   RETURNING *;`,
       [linkId]
     );
-    console.log("DELETED TAGS", tags);
     return tags;
   } catch (error) {
     console.error(error);
   }
 };
-
 
 //deletes tag from tags table by tag id
 const destroyTag = async (id) => {
@@ -248,7 +261,7 @@ const getTagById = async (id) => {
       rows: [tag],
     } = await client.query(
       `
-      SELECT * FROM tags WHERE id=$1;
+      SELECT * FROM tags WHERE id=$1 ORDER BY Len("tagName");
       `,
       [id]
     );
@@ -258,14 +271,14 @@ const getTagById = async (id) => {
   }
 };
 
-
 //gets all tags sorted A -> Z
-const getAllTags = async () => {
+const getAllTags = async (creatorId) => {
   try {
     const { rows: tags } = await client.query(
       `
-      SELECT * FROM tags WHERE id=$1 ORDER BY "tagName" ASC;
-      `
+      SELECT * FROM tags WHERE "creatorId"=$1 ORDER BY "tagName" ASC;
+      `,
+      [creatorId]
     );
     return tags;
   } catch (error) {
@@ -278,21 +291,38 @@ const getAllTags = async () => {
 // POST api/comments/:linkId
 //creates comment in comment table
 //linkId as argument or param??
-const createComment = async ({ linkId, body }) => {
+const createComment = async ({ creatorId, linkId, body }) => {
   try {
     const {
       rows: [comment],
     } = await client.query(
       `
-    INSERT INTO comments("linkId", body) VALUES ($1, $2) RETURNING *;
+    INSERT INTO comments("creatorId", "linkId", body) VALUES ($1, $2, $3) RETURNING id, body;
     `,
-      [linkId, body]
+      [creatorId, linkId, body]
     );
     return comment;
   } catch (error) {
     console.error(error);
   }
 };
+
+const destroyComment = async (id) => {
+  try {
+    const { rows: [comment] } = await client.query(
+      `
+  DELETE
+  FROM comments
+  WHERE id=$1
+  RETURNING *;`,
+      [id]
+    );
+    console.log("DELETED COMMENT", comment);
+    return comment;
+  } catch (error) {
+    console.error(error);
+  }
+}
 
 const destroyAllComments = async (linkId) => {
   try {
@@ -311,12 +341,13 @@ const destroyAllComments = async (linkId) => {
   }
 };
 
-const getAllComments = async () => {
+const getAllComments = async (creatorId) => {
   try {
     const { rows: comments } = await client.query(
       `
-      SELECT * FROM comments;
-      `
+      SELECT * FROM comments WHERE "creatorId"=$1;
+      `,
+      [creatorId]
     );
     return comments;
   } catch (error) {
@@ -324,23 +355,24 @@ const getAllComments = async () => {
   }
 };
 
-
 //require and re-export
 module.exports = {
   client,
   createUser,
   getUser,
   getUserByUsername,
+  getUserById,
   getAllLinks,
   createLink,
   destroyLink,
-  updateLinkTitle,
+  updateLink,
   createTag,
   destroyTag,
   destroyAllTags,
   getTagById,
   getAllTags,
   createComment,
+  destroyComment,
   destroyAllComments,
-  getAllComments
+  getAllComments,
 };
