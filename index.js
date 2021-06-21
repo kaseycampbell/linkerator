@@ -30,6 +30,7 @@ server.use((req, res, next) => {
 server.use((err, req, res, next) => {
   res.status(500);
   res.send(err);
+  console.log(err);
 });
 
 // bring in the DB connection

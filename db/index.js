@@ -7,10 +7,6 @@ const bcrypt = require("bcrypt");
 
 // USER
 
-//still needed
-//getUserById(id)
-//deleteComment
-
 // POST api/user/register
 //creates a new user
 const createUser = async ({ username, password }) => {
@@ -55,6 +51,9 @@ const getUserByUsername = async (username) => {
 //id can be used in getAllLinks function to get only links by user
 const getUser = async ({ username, password }) => {
   const user = await getUserByUsername(username);
+  if (!user) {
+    return null;
+  }
   const hashedPassword = user.password;
 
   try {
@@ -99,7 +98,7 @@ const getAllLinks = async (id) => {
   try {
     const { rows: links } = await client.query(
       `
-      SELECT * FROM links WHERE "creatorId"=$1 ORDER BY date DESC;
+      SELECT * FROM links WHERE "creatorId"=$1 ORDER BY id ASC;
       `,
       [id]
     );
@@ -183,15 +182,31 @@ const destroyLink = async (id) => {
 
 // PATCH api/links/:linkId
 //updates link title
-const updateLink = async ({ id, title, url }) => {
+const updateLink = async ({ linkId, title, url }) => {
   try {
     const {
       rows: [updatedLink],
     } = await client.query(
       `
-      UPDATE links SET title=$1 WHERE id=$2 RETURNING *;
+      UPDATE links SET title=$1, url=$2 WHERE id=$3 RETURNING *;
     `,
-      [title, id]
+      [title, url, linkId]
+    );
+    return updatedLink;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const updateClickCount = async ({ clickCount, linkId }) => {
+  try {
+    const {
+      rows: [updatedLink],
+    } = await client.query(
+      `
+      UPDATE links SET "clickCount"=$1 WHERE id=$2 RETURNING *;
+    `,
+      [clickCount, linkId]
     );
     return updatedLink;
   } catch (error) {
@@ -309,7 +324,9 @@ const createComment = async ({ creatorId, linkId, body }) => {
 
 const destroyComment = async (id) => {
   try {
-    const { rows: [comment] } = await client.query(
+    const {
+      rows: [comment],
+    } = await client.query(
       `
   DELETE
   FROM comments
@@ -317,12 +334,11 @@ const destroyComment = async (id) => {
   RETURNING *;`,
       [id]
     );
-    console.log("DELETED COMMENT", comment);
     return comment;
   } catch (error) {
     console.error(error);
   }
-}
+};
 
 const destroyAllComments = async (linkId) => {
   try {
@@ -334,7 +350,6 @@ const destroyAllComments = async (linkId) => {
   RETURNING *;`,
       [linkId]
     );
-    console.log("DELETED COMMENTS", comments);
     return comments;
   } catch (error) {
     console.error(error);
@@ -366,6 +381,7 @@ module.exports = {
   createLink,
   destroyLink,
   updateLink,
+  updateClickCount,
   createTag,
   destroyTag,
   destroyAllTags,

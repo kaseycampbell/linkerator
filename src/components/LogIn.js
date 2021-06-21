@@ -25,10 +25,15 @@ const LogIn = ({ setUser, setShowSignUp }) => {
   const handleLogIn = async (event) => {
     event.preventDefault();
     try {
-      const data = await logInUser(usernameInput, passwordInput);
+      const user = await logInUser(usernameInput, passwordInput);
       // check for error
-      setToken(data.token);
-      setUser(data.user);
+      if (!user.token) {
+        alert(user.message);
+        setPasswordInput("");
+        return;
+      }
+      setToken(user.token);
+      setUser(user.user);
     } catch (error) {
       console.error(error);
     }

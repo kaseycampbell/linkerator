@@ -35,12 +35,19 @@ const SignUp = ({ setUser, setShowSignUp }) => {
       alert("Passwords do not match!");
       setPasswordInput("");
       setVerifyPasswordInput("");
+      return;
     }
     try {
-      const data = await registerUser(usernameInput, passwordInput);
-      //check for error
-      setToken(data.token);
-      setUser(data.user);
+      const user = await registerUser(usernameInput, passwordInput);
+      if (!user.token) {
+        alert(user.message);
+        setPasswordInput("");
+        setVerifyPasswordInput("");
+
+        return;
+      }
+      setToken(user.token);
+      setUser(user.user);
     } catch (error) {
       console.error(error);
     }

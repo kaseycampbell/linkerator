@@ -1,9 +1,10 @@
 import React from "react";
 import { getToken } from "../utils";
-import { GrClose } from "react-icons/gr";
+import {AiOutlineClose} from "react-icons/ai";
 
-const Comment = ({comment, showEditComments, setLinks, link}) => {
-  const {id, body} = comment;
+
+const Comment = ({ comment, showEditComments, setLinks, link }) => {
+  const { id, body } = comment;
   const token = getToken();
 
   const handleDeleteComment = async () => {
@@ -16,25 +17,24 @@ const Comment = ({comment, showEditComments, setLinks, link}) => {
         },
       });
       const deletedComment = await response.json();
-      console.log({deletedComment});
     } catch (error) {
       console.error(error);
     }
     const newComments = link.comments.filter((c) => c.id !== id);
     link.comments = newComments;
     setLinks((currentLinks) => {
-      return currentLinks.map(l => {
+      return currentLinks.map((l) => {
         if (l.id !== link.id) return l;
         return link;
-      })
-    })
+      });
+    });
   };
 
   return (
     <div className="comment">
       {showEditComments && (
         <div className="delete__comment">
-          <GrClose onClick={handleDeleteComment} />
+          <AiOutlineClose onClick={handleDeleteComment} />
         </div>
       )}
       <div className="comment__body">{body}</div>
@@ -43,10 +43,3 @@ const Comment = ({comment, showEditComments, setLinks, link}) => {
 };
 
 export default Comment;
-
-// setLinks((currentLinks) => {
-//   return currentLinks.map((l) => {
-//     if (l.id !== link.id) return l;
-//     return link;
-//   });
-// });

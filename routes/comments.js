@@ -4,7 +4,6 @@ const { requireUser } = require("./utils");
 
 const { createComment, destroyComment } = require("../db");
 
-//get creatorId from req.user.id
 commentsRouter.post("/:linkId", requireUser, async (req, res, next) => {
   const { linkId } = req.params;
   const { body } = req.body;
@@ -25,6 +24,6 @@ commentsRouter.delete("/:id", requireUser, async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-})
+});
 
 module.exports = commentsRouter;

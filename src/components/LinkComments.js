@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { getToken } from "../utils";
 import { Comment } from "./index";
 import { BsThreeDots } from "react-icons/bs";
-import { GrClose } from "react-icons/gr";
+import { AiOutlineClose } from "react-icons/ai";
 
 const LinkComments = ({ link, setShowComments, setLinks }) => {
   const [commentInput, setCommentInput] = useState("");
@@ -60,7 +60,7 @@ const LinkComments = ({ link, setShowComments, setLinks }) => {
           </div>
           <div>Comments</div>
           <div className="icon" onClick={handleClose}>
-            <GrClose />
+            <AiOutlineClose />
           </div>
         </div>
       </div>
@@ -94,10 +94,3 @@ const LinkComments = ({ link, setShowComments, setLinks }) => {
 };
 
 export default LinkComments;
-
-{
-  /* <div key={comment.id} className="comment">
-                  {showEditComments && <div className="delete__comment"><GrClose onClick={handleDeleteComment}/></div>}
-                  <div className="comment__body">{comment.body}</div>
-                </div> */
-}

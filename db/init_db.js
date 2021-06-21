@@ -35,10 +35,11 @@ const buildTables = async () => {
       CREATE TABLE links(
         id SERIAL PRIMARY KEY,
         "creatorId" INTEGER REFERENCES users(id),
-        title varchar(255) UNIQUE NOT NULL,
-        url varchar(255) UNIQUE NOT NULL,
+        title varchar(255) NOT NULL,
+        url varchar(255) NOT NULL,
         "clickCount" INT NOT NULL,
-        date DATE NOT NULL
+        date DATE NOT NULL,
+        UNIQUE ("creatorId", url)
     );
       CREATE TABLE comments(
         id SERIAL PRIMARY KEY,
@@ -145,7 +146,7 @@ const createInitialLinks = async () => {
         url: "https://www.stackOverflow.com/",
         clickCount: 1,
         date: "2021-03-28",
-      }
+      },
     ];
     const links = await Promise.all(linksToCreate.map(createLink));
     console.log("Links created:");

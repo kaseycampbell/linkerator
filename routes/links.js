@@ -2,11 +2,13 @@ const express = require("express");
 const linksRouter = express.Router();
 const { requireUser } = require("./utils");
 
-const { getAllLinks, createLink, destroyLink } = require("../db");
-
-//use state setUser in react to store username and id.
-//pass in id as :userId in fetch/axios request
-//requireUser
+const {
+  getAllLinks,
+  createLink,
+  destroyLink,
+  updateLink,
+  updateClickCount,
+} = require("../db");
 
 linksRouter.get("/:userId", async (req, res, next) => {
   const { userId } = req.params;
@@ -18,14 +20,13 @@ linksRouter.get("/:userId", async (req, res, next) => {
   }
 });
 
-//cannot post without crea
-linksRouter.post("/:userId", requireUser, async (req, res, next) => {
+linksRouter.post("/", requireUser, async (req, res, next) => {
   const { title, url } = req.body;
-  const { userId } = req.params;
+  const creatorId = req.user.id;
   const date = new Date();
   try {
     const link = await createLink({
-      creatorId: userId,
+      creatorId,
       title: title,
       url: url,
       clickCount: 0,
@@ -48,14 +49,28 @@ linksRouter.delete("/:id", requireUser, async (req, res, next) => {
   }
 });
 
-// linksRouter.patch("/:id", async (req, res, next) => {
-//   const {id} = req.params;
-//   const {}
-//   try {
-//     const link
-//   } catch (error) {
-//     next(error)
-//   }
-// });
+linksRouter.patch("/:linkId", requireUser, async (req, res, next) => {
+  const { linkId } = req.params;
+  const { title, url } = req.body;
+  try {
+    const link = await updateLink({ linkId, title, url });
+    res.send(link);
+  } catch (error) {
+    console.error({ error });
+    next(error);
+  }
+});
+
+linksRouter.patch("/click/:linkId", requireUser, async (req, res, next) => {
+  const { linkId } = req.params;
+  const { clickCount } = req.body;
+  try {
+    const link = await updateClickCount({ clickCount, linkId });
+    res.send(link);
+  } catch (error) {
+    console.error({ error });
+    next(error);
+  }
+});
 
 module.exports = linksRouter;

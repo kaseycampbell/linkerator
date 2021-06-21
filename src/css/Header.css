@@ -13,20 +13,8 @@
 
 #log__out__button {
   position: absolute;
-  top: 30px;
+  top: 8px;
   right: 30px;
-  padding: 8px 12px;
-  border-radius: 4px;
-  background: none;
-  border: 4px solid #404040;
-  font-size: 1rem;
-  /* color: #404040; */
-  transition: 250ms ease;
-}
-
-#log__out__button:hover {
-  border: 4px solid #5eced1;
-  color: #5eced1;
 }
 
 @media only screen and (max-width: 1400px) {
