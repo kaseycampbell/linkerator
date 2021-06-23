@@ -5,8 +5,7 @@ import { AiOutlineClose } from "react-icons/ai";
 
 // contains search bar with search button and all tags
 
-const SideNav = ({ setShowAddModal, links, setFilter }) => {
-  const [searchInput, setSearchInput] = useState("");
+const SideNav = ({ setShowAddModal, links, setFilter, searchInput, setSearchInput}) => {
   const [uniqueTags, setUniqueTags] = useState([]);
   const [selected, setSelected] = useState("");
 
@@ -31,7 +30,7 @@ const SideNav = ({ setShowAddModal, links, setFilter }) => {
     if (className.includes("selected")) {
       setFilter("");
       setSelected("");
-      return
+      return;
     }
     const clickedTag = event.target.innerHTML;
     let filteredLinks = [];
@@ -45,6 +44,11 @@ const SideNav = ({ setShowAddModal, links, setFilter }) => {
     setFilter(filteredLinks);
     setSelected(clickedTag);
   };
+
+  const showSearchResults = () => {
+    let LinkCard = [];
+
+  }
 
   const handleRemoveFilter = () => {
     setFilter("");
@@ -79,7 +83,9 @@ const SideNav = ({ setShowAddModal, links, setFilter }) => {
             onChange={searchChangeHandler}
             required
           />
-          <button className="search__button">Search</button>
+          <button className="search__button" onClick={showSearchResults}>
+            Search
+          </button>
         </div>
       </div>
       <div className="nav__tags__container">
@@ -87,8 +93,14 @@ const SideNav = ({ setShowAddModal, links, setFilter }) => {
           uniqueTags.map((tag, i) => {
             if (tag === selected) {
               return (
-                <div key={i} className="nav__tag selected" onClick={handleClick}>
-                  <div id="remove__filter" className="selected">+</div>
+                <div
+                  key={i}
+                  className="nav__tag selected"
+                  onClick={handleClick}
+                >
+                  <div id="remove__filter" className="selected">
+                    +
+                  </div>
 
                   {tag}
                 </div>

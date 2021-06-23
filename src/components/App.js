@@ -9,6 +9,7 @@ const App = () => {
   const [linkToUpdate, setLinkToUpdate] = useState(null);
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [searchInput, setSearchInput] = useState("");
   // const [search, setSearch] = useState('');
   // const [searchOption, setSearchOption] = useState('')
   // const [sortOption, setSortOption] = useState('');
@@ -102,6 +103,15 @@ const App = () => {
     }
   };
 
+  
+
+  const sortByClicks = (e) => {
+    setLinks((links) => {
+      const sortedLinks= [...links].sort((a, b) => b.clickCount - a.clickCount)
+      return sortedLinks
+    })
+  }
+
   useEffect(() => {
     if (!user) return;
     fetchLinks(user.id);
@@ -119,8 +129,13 @@ console.log({filter});
               setShowAddModal={setShowAddModal}
               links={links}
               setFilter={setFilter}
+              searchInput={searchInput}
+              setSearchInput={setSearchInput}
             />
+            <div>
+            </div>
             <div className="cards">
+            <button className="button__small" onClick={sortByClicks}>Most Visited</button>
               {filter
                 ? filter.map((link) => {
                     return (
